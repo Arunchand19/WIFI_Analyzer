@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
@@ -24,6 +25,9 @@ const io = socketIo(server, {
 
 app.use(cors());
 app.use(express.json());
+
+// Serve React static files
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Initialize WiFi
 wifi.init({
@@ -169,6 +173,11 @@ app.get('/api/system-info', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Catch-all route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
