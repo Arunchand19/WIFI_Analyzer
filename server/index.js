@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -150,6 +150,10 @@ async function startRealTimeMonitoring(socket) {
 }
 
 // REST API endpoints
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Backend is working ✅' });
+});
+
 app.get('/api/network-info', async (req, res) => {
   try {
     const networkInfo = await si.networkInterfaces();

@@ -23,7 +23,7 @@ export const SocketProvider = ({ children }) => {
   const [malwareResults, setMalwareResults] = useState(null)
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3001', {
+    const newSocket = io(window.location.origin, {
       transports: ['websocket', 'polling']
     })
 
